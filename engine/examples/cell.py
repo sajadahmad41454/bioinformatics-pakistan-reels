@@ -1,4 +1,4 @@
-import sys as _s; _s.path.append("/home/claude/ten")
+import sys as _s, os as _o; _s.path.insert(0, _o.path.join(_o.path.dirname(_o.path.abspath(__file__)), ".."))
 from eng import *
 from vids import draw_cell, monitor
 RED = "#EF4444"; CRIM = "#B91C1C"; ICE = "#BAE6FD"; NAVY = "#0B2447"; BLUE = "#3B82F6"
