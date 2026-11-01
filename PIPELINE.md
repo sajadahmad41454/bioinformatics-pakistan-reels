@@ -1,45 +1,51 @@
-# Weekly content pipeline — @bioinformatics_pakistan
+# Weekly content pipeline — Bioinformatics for Pakistan
 
-This file is the instruction sheet for the automated runs. Read it fully before every run.
+Instruction sheet for the automated runs. Read it fully before every run. Owner: Sajad Ahmad (MPhil Bioinformatics, Quaid-e-Azam University).
+
+## Where things go
+- **Instagram (@bioinformatics_pakistan): animated Reels only.**
+- **LinkedIn page "Bioinformatics for Pakistan": scholarship posters and research/publication news posters only** (no Reels on LinkedIn).
 
 ## Weekly plan (all times Asia/Karachi)
 
-| Day | Post | Type | Time |
+| Day | Post | Network | Time |
 |---|---|---|---|
-| Mon | Animated Reel (disease / bioinformatics topic) | REEL | 10:30 |
-| Tue | Scholarship poster (verified, open, fully/mostly funded) | Image POST | 17:30 |
-| Wed | Animated Reel | REEL | 10:30 |
-| Thu | Science-news poster (real discovery from the last ~2 weeks) | Image POST | 17:30 |
-| Fri | Animated Reel | REEL | 10:30 |
+| Mon | Animated Reel | Instagram | 10:30 |
+| Tue | Scholarship poster | LinkedIn | 17:30 |
+| Wed | Animated Reel | Instagram | 10:30 |
+| Thu | Research / publication news poster | LinkedIn | 17:30 |
+| Fri | Animated Reel | Instagram | 10:30 |
 
-Runs: **Sun 20:41** → Mon Reel + Tue scholarship · **Tue 20:41** → Wed Reel + Thu news · **Thu 20:41** → Fri Reel.
+Runs: **Sun 20:41** → Mon Reel + Tue scholarship · **Tue 20:41** → Wed Reel + Thu research news · **Thu 20:41** → Fri Reel.
+Before making anything, check Metricool `getScheduledPosts` for the target slot and network; if it's already filled, skip it.
+Metricool free plan = 20 posts/month. This plan uses ~21/month (13 Reels + 8 LinkedIn posters). If the planner says no posts are left, skip and report it.
 
-## Hard rules for information posts (scholarships, discoveries)
-1. **Never invent anything.** Every fact (name, deadline, coverage, eligibility, finding, journal) must come from a source fetched during the run.
-2. Prefer the **official page** (university, funder, government, journal, or the institution's own press release). Aggregator sites (scholars4dev, opportunitiesforafricans, propakistani, etc.) may be used to *find* items, but key facts must be confirmed by at least two independent sources, one official when it can be fetched.
-3. Scholarships: deadline must be **at least 3 weeks in the future**, open to Pakistani citizens, relevant to science/biology/bioinformatics/health/STEM students. Put the official link in the caption. If any key fact cannot be confirmed, pick a different scholarship.
-4. Science news: must be a peer-reviewed paper or an official announcement from a recognised institution (Nature, Science, Cell, NEJM, Lancet, eLife, NIH, WHO, EMBL-EBI, university press office…), published in the last ~3 weeks. Caption names the journal/institution and links to it. No hype, no claims beyond what the source says ("may", "in mice", "early-stage" where true).
-5. If nothing qualifies, skip that post and say so in the log — never post something unverified.
-6. Check `posts_log.md` so nothing is repeated.
+## Accuracy — the most important rule
+1. **Never invent, guess or "fill in" anything.** Every name, number, deadline, amount, eligibility rule, finding, author, journal and date must come from a source fetched during the run.
+2. Prefer **official pages** (funder, university, government, journal, the institution's press release, PubMed/DOI page). Aggregators may be used to *find* items only; key facts need two independent sources, one official where it can be fetched.
+3. **Scholarships:** open to Pakistani citizens, deadline at least 3 weeks away, relevant to biology/bioinformatics/biotech/health/STEM. Official link in the post.
+4. **Research news:** a peer-reviewed paper or official institutional announcement from roughly the last 3 weeks, in bioinformatics, genomics, computational biology, biotechnology or biomedical science. Name the journal and link the paper (DOI) or the official release. Say only what the source says: keep qualifiers like "in mice", "early-stage", "preprint" (avoid preprints unless clearly labelled), "may".
+5. If anything can't be verified, choose a different item, or skip the post and say why. Never post unverified content.
+6. Reels must be scientifically accurate too: well-established science only, no treatment or cure claims, careful wording ("can", "may", "one of the causes").
+7. Check `posts_log.md` so nothing repeats.
 
-## Reels
-- Built with `engine/eng.py` + `engine/vids.py` (see `engine/examples/cell.py` and `tts.py` for a complete example: script lines → Kokoro TTS → scenes → `render` → `audio` → ffmpeg concat + watermark).
-- 55–75 s, 9:16, narrated (Kokoro `af_heart`, speed ~0.93), original animation, watermark `engine/watermark.png` at top-right (`scale=-1:88`, `overlay=W-w-40:128`).
-- Topics: disease mechanisms (especially ones common in Pakistan), genetics, genomics, bioinformatics methods, drug discovery. Disease topics perform best. Scientifically accurate, no treatment claims, no fear-mongering. Each video a different visual theme/accent colour.
-- Render in background with `nohup` + 2 parallel parts; verify every frame renders (sweep) before full render; check a contact sheet visually.
-- Save to `videos/YYYY-MM-DD_slug.mp4` (< 30 MB), push, then schedule with the raw URL:
-  `https://raw.githubusercontent.com/sajadahmad41454/bioinformatics-pakistan-reels/main/videos/<file>`
-- `isAiGenerated: false` (original animation).
+## Tone — natural, human, not "AI-sounding"
+- LinkedIn captions read like a real person sharing something useful: plain sentences, short paragraphs, first-person plural is fine ("Sharing this for anyone applying to…"). **No** hype words ("game-changer", "revolutionary", "unlock", "dive in", "in today's fast-paced world"), no rows of emojis (0–2 max), 3–5 hashtags at the end, a genuine question or prompt to comment is welcome.
+- Instagram captions: hook line, 2–3 short paragraphs, save/share line, 10–14 hashtags ending with `#bioinformaticsforpakistan`. Light emoji use.
+- **Posters must not all look the same.** Rotate `style=` in `engine/poster.py` (navy, light, forest, plum); don't reuse the previous poster's style. Keep text short; look at the PNG before posting.
 
-## Posters
-- `engine/poster.py` → `posters/YYYY-MM-DD_slug.png` (1080×1350). Kinds: `SCHOLARSHIP`, `SCIENCE NEWS`.
-- Look at the rendered PNG before scheduling (no overlapping text).
+## Reels (Instagram)
+- Topics: any bioinformatics process or tool, diseases and how they work (especially those common in Pakistan), genetics, genomics, biotechnology, immunology, drug discovery, general science explainers. Disease/health topics perform best (colorectal cancer video: 1,700+ views). Each video a different topic and a different visual theme/accent colour.
+- Built with `engine/eng.py` + `engine/vids.py` (full example: `engine/examples/cell.py` + `tts.py`): script lines → Kokoro TTS (`af_heart`, speed ~0.93) → scenes → test frames + contact sheet → sweep all frames for errors → `nohup` render in 2 parallel parts → `audio` → ffmpeg concat + watermark `engine/watermark.png` (`scale=-1:88`, `overlay=W-w-40:128`).
+- 55–75 s, 9:16, < 30 MB, `videos/YYYY-MM-DD_slug.mp4`, push, schedule with the raw URL `https://raw.githubusercontent.com/sajadahmad41454/bioinformatics-pakistan-reels/main/videos/<file>`.
+- Metricool: network `instagram`, `instagramData: {type: "REEL", showReelOnFeed: true, isAiGenerated: false}`.
 
-## Metricool
-- Brand/blogId **7481384**, timezone Asia/Karachi, network `instagram`.
-- Reel: `instagramData: {type: "REEL", showReelOnFeed: true, isAiGenerated: false}`. Poster: `type: "POST"`.
-- `autoPublish: true`, `draft: false` (posts are created ~14–20 h ahead so the owner can review/edit in Metricool).
-- Captions: hook line, 2–4 short paragraphs, call to action (save/share), 10–14 hashtags ending with `#bioinformaticsforpakistan`. For info posts the official link goes in the caption.
+## Posters (LinkedIn)
+- `engine/poster.py` → `posters/YYYY-MM-DD_slug.png` (1080×1350), kinds `SCHOLARSHIP` / `SCIENCE NEWS`, rotate `style`.
+- Metricool: network `linkedin`, `linkedinData: {type: "post", previewIncluded: true}`, media = raw URL of the PNG, alt text describing the poster.
+
+## Metricool common settings
+Brand/blogId **7481384**, timezone Asia/Karachi, `autoPublish: true`, `draft: false`. Posts are created the evening before so the owner can review them.
 
 ## After each run
-Append to `posts_log.md`: date, post type, topic, scheduled time, sources used. Commit and push.
+Append each post to `posts_log.md` (created, scheduled time, network, type, topic, source URLs). Commit and push.

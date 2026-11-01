@@ -24,19 +24,29 @@ def _t(ax, x, y, s, size, col, w="bold", ha="center", va="center", al=1, z=5, fa
     if fam: kw["family"] = fam
     ax.text(x, y, s, **kw)
 
-def poster(out, kind, title, subtitle, bullets, key_label, key_value, key_note="", footer="Official link in caption", source=""):
-    acc = THEMES.get(kind, THEMES["OPPORTUNITY"])[0]
+STYLES = {  # bg, glow, text, muted, card, line
+    "navy":   ("#050E1E", "#13325F", "#FFFFFF", "#94A8C4", "#0C1D37", "#1E3A5F"),
+    "light":  ("#F6F4EE", "#E4ECF5", "#0F172A", "#475569", "#FFFFFF", "#D6DEE8"),
+    "forest": ("#061A16", "#0E3B31", "#F1F7F4", "#9CC3B5", "#0B2A23", "#1D4A3F"),
+    "plum":   ("#140A1E", "#3A1D52", "#FFFFFF", "#B9A6CC", "#221333", "#3C2754"),
+}
+ACCENTS = {"navy": None, "light": "#C2410C", "forest": "#FBBF24", "plum": "#F472B6"}
+
+def poster(out, kind, title, subtitle, bullets, key_label, key_value, key_note="", footer="Official link in caption", source="", style="navy"):
+    """style: navy | light | forest | plum. Rotate styles so the feed does not look templated."""
+    BG, GLOW, WHITE, MUTED, CARD, LINE = STYLES[style]
+    acc = ACCENTS[style] or THEMES.get(kind, THEMES["OPPORTUNITY"])[0]
     fig = plt.figure(figsize=(W / 100, H / 100), dpi=100); ax = fig.add_axes([0, 0, 1, 1])
     ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
     yy, xx = np.mgrid[0:H:6, 0:W:6]
     g = np.clip(1 - np.hypot(xx - 820, yy - 1150) / 1100, 0, 1) ** 2
-    ax.imshow(g, extent=[0, W, 0, H], origin="lower", cmap=LSC.from_list("g", [BG, "#13325F"]), aspect="auto", zorder=0)
+    ax.imshow(g, extent=[0, W, 0, H], origin="lower", cmap=LSC.from_list("g", [BG, GLOW]), aspect="auto", zorder=0)
     r = np.random.default_rng(len(title))
     P = r.uniform([0, 0], [W, H], (60, 2)); ax.scatter(P[:, 0], P[:, 1], s=r.uniform(3, 18, 60), c=acc, alpha=0.12, lw=0, zorder=1)
     # header
     tw = len(kind) * 15 + 70
     ax.add_patch(FancyBboxPatch((70, 1235), tw, 56, boxstyle="round,pad=0,rounding_size=28", fc=acc, ec="none", zorder=3))
-    _t(ax, 70 + tw / 2, 1263, kind, 20, BG)
+    _t(ax, 70 + tw / 2, 1263, kind, 20, BG if style != "light" else "#FFFFFF")
     _t(ax, 1010, 1263, "Bioinformatics for Pakistan", 19, MUTED, w="semibold", ha="right")
     # title
     nl = title.count("\n") + 1
@@ -63,5 +73,5 @@ def poster(out, kind, title, subtitle, bullets, key_label, key_value, key_note="
     # footer
     _t(ax, 540, 120, footer, 24, acc, w="semibold")
     _t(ax, 540, 75, "@bioinformatics_pakistan", 20, MUTED, w="semibold")
-    if source: _t(ax, 540, 40, source, 14, "#5E7391", w="normal")
+    if source: _t(ax, 540, 40, source, 14, MUTED, w="normal", al=0.8)
     fig.savefig(out, dpi=100, facecolor=BG); plt.close(fig)
