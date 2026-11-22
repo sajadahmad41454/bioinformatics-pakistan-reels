@@ -51,7 +51,7 @@ def poster(out, kind, title, subtitle, bullets, key_label, key_value, key_note="
     # title
     nl = title.count("\n") + 1
     _t(ax, 70, 1150, title, 58 if nl <= 2 else 50, WHITE, ha="left", va="top", ls=1.08)
-    ty = 1150 - nl * (90 if nl <= 2 else 78) - 28
+    ty = 1150 - nl * (90 if nl <= 2 else 78) - 40
     ax.plot([70, 190], [ty, ty], color=acc, lw=6, solid_capstyle="round", zorder=3)
     import textwrap
     sub = textwrap.fill(subtitle, 52)
